@@ -8,22 +8,28 @@ using Xamarin.Forms;
 using RuiDemo.Models;
 using RuiDemo.Views;
 using System.Windows.Input;
+using ReactiveUI;
+using System.Reactive.Linq;
 
 namespace RuiDemo.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
         public ObservableCollection<Item> Items { get; set; }
-        public Command LoadItemsCommand { get; set; }
+        public ICommand LoadItemsCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
+        public ICommand AddNewItemCommand { get; private set; }
+        private readonly Interaction<ItemsViewModel, bool> _deleteItem;
+        public Interaction<ItemsViewModel, bool> DeleteItemInteraction => _deleteItem;
 
         public ItemsViewModel()
         {
             Title = "Browse";
             Items = new ObservableCollection<Item>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-            DeleteCommand = new Command<Item>(item => 
-                Items.Remove(item));
+            LoadItemsCommand = ReactiveCommand.CreateFromTask(ExecuteLoadItemsCommand, NotBusyObservable);
+            DeleteCommand = ReactiveCommand.CreateFromTask<Item>(ExecuteDeleteItem, NotBusyObservable);
+            AddNewItemCommand = ReactiveCommand.CreateFromTask(ExecuteAddNewItem);
+            _deleteItem = new Interaction<ItemsViewModel, bool>();
 
             MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
             {
@@ -35,9 +41,6 @@ namespace RuiDemo.ViewModels
 
         async Task ExecuteLoadItemsCommand()
         {
-            if (IsBusy)
-                return;
-
             IsBusy = true;
 
             try
@@ -57,6 +60,25 @@ namespace RuiDemo.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        async Task ExecuteDeleteItem(Item item)
+        {
+            //Call an interaction to confirm item deletion
+            var result = await DeleteItemInteraction.Handle(this);
+            if (result)
+            {
+                IsBusy = true;
+                await Task.Delay(TimeSpan.FromSeconds(2));
+                Items.Remove(item);
+            }
+
+            IsBusy = false;
+        }
+
+        async Task ExecuteAddNewItem()
+        {
+
         }
     }
 }

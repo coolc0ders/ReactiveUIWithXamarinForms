@@ -10,6 +10,7 @@ using Xamarin.Forms.Xaml;
 using RuiDemo.Models;
 using RuiDemo.Views;
 using RuiDemo.ViewModels;
+using ReactiveUI;
 
 namespace RuiDemo.Views
 {
@@ -23,7 +24,6 @@ namespace RuiDemo.Views
         public ItemsPage()
         {
             InitializeComponent();
-
             BindingContext = viewModel = new ItemsViewModel();
         }
 
@@ -47,7 +47,11 @@ namespace RuiDemo.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
+            viewModel.DeleteItemInteraction.RegisterHandler(async interaction =>
+            {
+                var result = await DisplayAlert("Delete", "You are about to delete this item do you want to proceed ?", "Yes", "No");
+                interaction.SetOutput(result);
+            });
             if (viewModel.Items.Count == 0)
                 viewModel.LoadItemsCommand.Execute(null);
         }
