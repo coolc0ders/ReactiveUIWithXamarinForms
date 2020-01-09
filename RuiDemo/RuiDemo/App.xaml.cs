@@ -13,7 +13,7 @@ namespace RuiDemo
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
+            AppLocator.Init();
             MainPage = new AppShell();
         }
 

@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using RuiDemo.Models;
+using RuiDemo.ViewModels;
 
 namespace RuiDemo.Views
 {
@@ -13,30 +14,26 @@ namespace RuiDemo.Views
     [DesignTimeVisible(false)]
     public partial class NewItemPage : ContentPage
     {
-        public Item Item { get; set; }
+        NewItemsViewModel _viewModel;
+
 
         public NewItemPage()
         {
             InitializeComponent();
-
-            Item = new Item
-            {
-                Text = "Item name",
-                Description = "This is an item description."
-            };
-
-            BindingContext = this;
+            BindingContext = _viewModel = AppLocator.NewItemsViewModel;
         }
 
-        async void Save_Clicked(object sender, EventArgs e)
+        protected override void OnAppearing()
         {
-            MessagingCenter.Send(this, "AddItem", Item);
-            await Navigation.PopModalAsync();
+            MessagingCenter.Subscribe<NewItemsViewModel>(this, "PopModal", async (sender) => 
+                await Navigation.PopModalAsync());
+            base.OnAppearing();
         }
 
-        async void Cancel_Clicked(object sender, EventArgs e)
+        protected override void OnDisappearing()
         {
-            await Navigation.PopModalAsync();
+            MessagingCenter.Unsubscribe<NewItemsViewModel>(this, "PopModal");
+            base.OnDisappearing();
         }
     }
 }
