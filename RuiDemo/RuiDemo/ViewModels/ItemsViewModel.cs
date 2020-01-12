@@ -31,6 +31,7 @@ namespace RuiDemo.ViewModels
             AddNewItemCommand = ReactiveCommand.CreateFromTask(ExecuteAddNewItem);
             _deleteItem = new Interaction<ItemsViewModel, bool>();
 
+            //In real world app this should be unsubscribed and subscribed appropriately
             MessagingCenter.Subscribe<NewItemsViewModel, Item>(this, "AddItem", async (obj, item) =>
             {
                 var newItem = item as Item;

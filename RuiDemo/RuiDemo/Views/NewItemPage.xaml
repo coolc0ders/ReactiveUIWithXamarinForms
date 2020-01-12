@@ -15,9 +15,15 @@
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
             <Label Text="Text" FontSize="Medium" />
-            <Entry Text="{Binding Item.Text}" d:Text="Item name" FontSize="Small" />
+            <Entry Text="{Binding ItemTitle.Value}" d:Text="Item name" FontSize="Small" />
+            <Label Text="{Binding ItemTitle.ErrorMessage}"
+                   Margin="0,-19,0,0"
+                   TextColor="Red" FontSize="Small"/>
             <Label Text="Description" FontSize="Medium" />
-            <Editor Text="{Binding Item.Description}" d:Text="Item description" FontSize="Small" Margin="0" />
+            <Editor Text="{Binding ItemDescription.Value}" d:Text="Item description" FontSize="Small" Margin="0" />
+            <Label Text="{Binding ItemDescription.ErrorMessage}"
+                   Margin="0,-19,0,0"
+                   TextColor="Red" FontSize="Small"/>
         </StackLayout>
     </ContentPage.Content>
     

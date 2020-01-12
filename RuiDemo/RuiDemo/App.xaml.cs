@@ -12,7 +12,6 @@ namespace RuiDemo
         public App()
         {
             InitializeComponent();
-
             AppLocator.Init();
             MainPage = new AppShell();
         }

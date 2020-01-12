@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ReactiveUI.Fody" Version="11.1.6" />
+    <PackageReference Include="ReactiveUI.Validation" Version="1.4.6" />
     <PackageReference Include="ReactiveUI.XamForms" Version="11.0.1" />
     <PackageReference Include="Splat" Version="9.3.4" />
     <PackageReference Include="Xamarin.Forms" Version="4.4.0.991265" />  

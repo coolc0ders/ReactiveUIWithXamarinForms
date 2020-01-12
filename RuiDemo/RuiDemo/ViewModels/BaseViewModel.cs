@@ -8,10 +8,12 @@ using Xamarin.Forms;
 using RuiDemo.Models;
 using RuiDemo.Services;
 using ReactiveUI;
+using ReactiveUI.Validation.Abstractions;
+using ReactiveUI.Validation.Contexts;
 
 namespace RuiDemo.ViewModels
 {
-    public class BaseViewModel : ReactiveObject
+    public class BaseViewModel : ReactiveObject, IValidatableViewModel
     {
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
 
@@ -39,5 +41,7 @@ namespace RuiDemo.ViewModels
             get { return title; }
             set { this.RaiseAndSetIfChanged(ref title, value); }
         }
+
+        public ValidationContext ValidationContext => new ValidationContext();
     }
 }
