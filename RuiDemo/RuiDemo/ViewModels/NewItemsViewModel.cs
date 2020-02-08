@@ -53,7 +53,6 @@ namespace RuiDemo.ViewModels
         {
             //NB: You could do validation with this default reactive ui method, OR Use a better way
             //this.ValidationRule(vm => vm.ItemDescription, desc => !string.IsNullOrEmpty(desc), "Description should not be empty");
-
             ItemDescription = new ValidatableObject<string>();
             ItemDescription.Validations.Add(new IsNotNullOrEmptyRule("Description should not be empty"));
             ItemTitle = new ValidatableObject<string>();

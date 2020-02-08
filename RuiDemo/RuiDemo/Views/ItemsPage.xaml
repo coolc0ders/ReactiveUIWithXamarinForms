@@ -38,28 +38,23 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="10" BackgroundColor="White">
-                                <SwipeView>
-                                    <SwipeView.LeftItems>
-                                        <SwipeItems>
-                                            <SwipeItem Text="Delete"
-                                               Command="{Binding BindingContext.DeleteCommand, Source={x:Reference BrowseItemsPage}}"
-                                               CommandParameter="{Binding}"
-                                               BackgroundColor="Aqua"/>
-                                        </SwipeItems>
-                                    </SwipeView.LeftItems>
-                                    <StackLayout BackgroundColor="White">
-                                        <Label Text="{Binding Text}" 
+                                <StackLayout BackgroundColor="White">
+                                    <Label Text="{Binding Text}" 
                                            d:Text="{Binding .}"
                                            LineBreakMode="NoWrap" 
                                            Style="{DynamicResource ListItemTextStyle}" 
                                            FontSize="16" />
-                                        <Label Text="{Binding Description}" 
+                                    <Label Text="{Binding Description}" 
                                            d:Text="Item description"
                                            LineBreakMode="NoWrap"
                                            Style="{DynamicResource ListItemDetailTextStyle}"
                                            FontSize="13" />
+                                    <StackLayout Orientation="Horizontal">
+                                        <CheckBox IsChecked="{Binding Completed}"
+                                                  VerticalOptions="Center"/>
+                                        <Label Text="Completed ?" VerticalOptions="Center"/>
                                     </StackLayout>
-                                </SwipeView>
+                                </StackLayout>
                                 <Button Text="Delete"
                                     Command="{Binding BindingContext.DeleteCommand, Source={x:Reference BrowseItemsPage}}"
                                     CommandParameter="{Binding}"/>
